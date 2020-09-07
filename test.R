@@ -82,7 +82,8 @@ testDF <- function(description, generated, expected, comparator = NULL, ignore_c
     )
 }
 
-testGGPlot <- function(description, generated, expected, test_data = TRUE, test_aes = TRUE, test_geom = TRUE, ...) {
+testGGPlot <- function(description, generated, expected,
+                        test_data = TRUE, test_aes = TRUE, test_geom = TRUE, test_label = FALSE, test_scale = FALSE, ...) {
     get_reporter()$start_test("", description)
 
     tryCatch(
@@ -105,6 +106,17 @@ testGGPlot <- function(description, generated, expected, test_data = TRUE, test_
                         equal <- FALSE
                     }
                 }
+
+                if (test_label) {
+                    expected_labels <- expected_gg$labels
+                    generated_labels <- generated_gg$labels
+                    if (!isTRUE(all.equal(expected_labels$x, generated_labels$x)) |
+                        !isTRUE(all.equal(expected_labels$y, generated_labels$y))){
+                        feedback <- "Did you specify the correct labels?"
+                        equal <- FALSE
+                    }
+                }
+
                 # Dont execute if a difference was already found in one of the previous layers
                 if (test_aes && equal) {
                     test_aes_result <- test_aes_layer(expected_gg$mapping, generated_gg$mapping)
@@ -118,6 +130,18 @@ testGGPlot <- function(description, generated, expected, test_data = TRUE, test_
                     test_geom_result <- test_geom_layer(expected_gg$layers, generated_gg$layers)
                     if (!test_geom_result$equal) {
                         feedback <- test_geom_result$feedback
+                        equal <- FALSE
+                    }
+                }
+
+                # expected_gg_build <- ggplot_build(expected_gg)
+                # generated_gg_build <- ggplot_build(generated_gg)
+
+                if (test_scale && equal) {
+                    expected_scale <- expected_gg$scales$scales
+                    generated_scale <- generated_gg$scales$scales
+                    if (!isTRUE(all.equal(expected_scale, generated_scale))) {
+                        feedback <- "Did you specify the correct scales?"
                         equal <- FALSE
                     }
                 }

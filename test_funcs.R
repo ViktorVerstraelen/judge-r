@@ -2,12 +2,12 @@
 
 test_data_layer <- function(sol_data, stud_data) {
   feedback <- "You did not add the correct data."
-  list('equal' = isTRUE(all.equal(sol_data, stud_data, check.attributes = FALSE)), 'feedback' = feedback)
+  list('equal' = isTRUE(dplyr::all_equal(sol_data, stud_data)), 'feedback' = feedback)
 }
 
 test_aes_layer <- function(sol_mapping, stud_mapping) {
   for (map in names(sol_mapping)) {
-    feedback_msg <- c(paste0("Have you specified the `", map, "` aesthetic?"),
+    feedback_msg <- c(paste0("Have you specified the `", map, "` aesthetic on the root ggplot layer?"),
                       paste0("Found `", stud_mapping[map], "` for the `", map, "` aesthetic. Expected `", sol_mapping[map], "`."))
     
     if (is.null(stud_mapping[map][[1]])){
