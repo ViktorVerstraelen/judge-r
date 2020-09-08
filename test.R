@@ -74,12 +74,7 @@ testDF <- function(description, generated, expected, comparator = NULL, ...) {
     )
 }
 
-<<<<<<< HEAD
 testGGPlot <- function(description, generated, expected, test_data = TRUE, test_aes = TRUE, test_geom = TRUE, test_label = FALSE, test_scale = FALSE) {
-=======
-testGGPlot <- function(description, generated, expected,
-                        test_data = TRUE, test_aes = TRUE, test_geom = TRUE, test_label = FALSE, test_scale = FALSE, ...) {
->>>>>>> 97bddb29f5996fbef7d30aa6c570ef5d1fc8f925
     get_reporter()$start_test("", description)
 
     tryCatch(
@@ -130,12 +125,6 @@ testGGPlot <- function(description, generated, expected,
                     }
                 }
 
-<<<<<<< HEAD
-=======
-                # expected_gg_build <- ggplot_build(expected_gg)
-                # generated_gg_build <- ggplot_build(generated_gg)
-
->>>>>>> 97bddb29f5996fbef7d30aa6c570ef5d1fc8f925
                 if (test_scale && equal) {
                     expected_scale <- expected_gg$scales$scales
                     generated_scale <- generated_gg$scales$scales
